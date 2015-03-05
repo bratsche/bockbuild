@@ -48,7 +48,9 @@ class MonoMasterEncryptedPackage(Package):
         self.cd(dirname)
         self.sh('%{git} clean -xfd')
         self.sh('%{git} pull')
-
+        # Assume mono-extensions has a matching branch
+        branch = os.getenv ("MONO_BRANCH")
+        self.sh('%{git} checkout origin/"%s"' % (branch))
 
     def apply_crypto(self):
         # Copied from Package#prep, makes sure we get the latest
